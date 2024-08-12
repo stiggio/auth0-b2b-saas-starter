@@ -2,7 +2,7 @@ import crypto from "crypto"
 import { Stigg } from "@stigg/node-server-sdk"
 
 const apiKey = process.env.STIGG_SERVER_API_KEY
-const [organizationId] = process.argv.slice(2)
+const [organizationId, numOfEvents = 1] = process.argv.slice(2)
 
 if (!organizationId) {
   throw new Error("Organization ID is required")
@@ -15,7 +15,8 @@ const stigg = Stigg.initialize({
 
 await stigg.waitForInitialization()
 
-for (let i = 0; i < 50; i++) {
+const events = [];
+for (let i = 0; i < numOfEvents; i++) {
   const userId = `fake-user-${Math.random().toString(36).substring(3)}`
   const eventName = `user-login`
 
@@ -34,10 +35,14 @@ for (let i = 0; i < 50; i++) {
     },
   }
 
-  try {
-    await stigg.reportEvent(anEvent)
-    console.log(`Event reported: `, anEvent)
-  } catch (error) {
-    console.error("Failed to report event", error)
-  }
+  console.log(`Created event: `, anEvent)
+  events.push(anEvent);
 }
+
+try {
+  await stigg.reportEvent(events)
+} catch (error) {
+  console.error("Failed to report events", error)
+}
+
+console.log(`Finished, sent total of ${numOfEvents} events.`)

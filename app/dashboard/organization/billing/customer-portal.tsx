@@ -13,10 +13,18 @@ const customerPortalTheme: DeepPartial<CustomerPortalTheme> = {
   borderColor: "#303036",
 }
 
-export function CustomerPortal() {
+type CustomerPortalProps = {
+  customerId: string
+  customerToken: string
+}
+
+export function CustomerPortal({
+  customerId,
+  customerToken,
+}: CustomerPortalProps) {
   return (
     <div>
-      <StiggProvider>
+      <StiggProvider customerId={customerId} customerToken={customerToken}>
         <StiggCustomerPortal
           theme={customerPortalTheme}
           paywallComponent={<Paywall />}
