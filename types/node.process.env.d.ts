@@ -31,5 +31,14 @@ declare namespace NodeJS {
     STIGG_SERVER_API_KEY: string
     NEXT_PUBLIC_STIGG_CLIENT_API_KEY: string
     STIGG_CUSTOMER_TOKEN_SIGNING_SECRET: string
+
+    // OpenFGA configuration
+    FGA_API_URL:string
+    FGA_STORE_ID: string
+    FGA_MODEL_ID: string
+    FGA_API_TOKEN_ISSUER: string
+    FGA_API_AUDIENCE: string
+    FGA_CLIENT_ID: string
+    FGA_CLIENT_SECRET:string
   }
 }

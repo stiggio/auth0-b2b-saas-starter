@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache"
 import { Session } from "@auth0/nextjs-auth0"
 
 import { managementClient } from "@/lib/auth0"
+import { checkUsageLimit } from "@/lib/entitlements"
 import { Role, roles } from "@/lib/roles"
 import { withServerActionAuth } from "@/lib/with-server-action-auth"
 
@@ -26,6 +27,14 @@ export const createInvitation = withServerActionAuth(
     ) {
       return {
         error: "Role is required and must be either 'member' or 'admin'.",
+      }
+    }
+
+    // For demo purposes, we check MAU limit when inviting a new user
+    const hasAccess = await checkUsageLimit(session.user, "mau", 1)
+    if (!hasAccess) {
+      return {
+        error: `Your organization has reached its monthly active members limit`,
       }
     }
 
