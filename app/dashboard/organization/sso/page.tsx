@@ -1,3 +1,5 @@
+import Link from "next/link"
+
 import { appClient, managementClient } from "@/lib/auth0"
 import { checkAccess } from "@/lib/entitlements"
 import { Button } from "@/components/ui/button"
@@ -22,7 +24,9 @@ function NoAccess() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <Button variant="default">Go to Billing</Button>
+        <Link href="/dashboard/organization/billing">
+          <Button variant="default">Go to Billing</Button>
+        </Link>
       </CardContent>
     </Card>
   )
